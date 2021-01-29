@@ -7,10 +7,13 @@ import QuizBackground from '../src/components/QuizBackground';
 import QuizContainer from '../src/components/QuizContainer';
 import AlternativeForm from '../src/components/AlternativeForm';
 import Button from '../src/components/Button';
-
+import styled from 'styled-components'
+import {useRouter} from 'next/router'
 
 
 function ResultWidget({ results }) {
+    const router = useRouter()
+    const name = router.query.name
     return (
         <Widget>
             <Widget.Header>
@@ -22,31 +25,31 @@ function ResultWidget({ results }) {
 
                     const isCorrect = resultAtual === true
 
-                    if(isCorrect){
-                        return somatorioAtual+1
+                    if (isCorrect) {
+                        return somatorioAtual + 1
                     }
 
                     return somatorioAtual
 
 
-                }, 0)}</p>
+                }, 0)} {name}</p>
                 <ul>
-            
 
-                    {results.map((result, index) => ( 
-                        
+
+                    {results.map((result, index) => (
+
                         <li key={`result__${index}`}>#0{index + 1} Resultado: {result === true ? 'Acertou' : 'Errou'}</li>
-            
-                        
-                        
-                       
+
+
+
+
 
 
                     ))}
-                    
-                   
 
-             
+
+
+
 
 
                 </ul>
@@ -57,17 +60,42 @@ function ResultWidget({ results }) {
     );
 }
 
+const Loading = styled.div`
+  animation: is-rotating 1s infinite;
+  border: 6px solid #e5e5e5;
+  border-radius: 50%;
+  border-top-color: #51d4db;
+  height: 50px;
+  width: 50px;
+  @keyframes is-rotating {
+  to {
+    transform: rotate(1turn);
+  }
+}
+`;
+
+const LoadingContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+`;
+
+
 function LoadingWidget() {
     return (
         <Widget>
             <Widget.Header>
-                Carregando...
-      </Widget.Header>
+                
+            </Widget.Header>
 
             <Widget.Content>
-                [Desafio do Loading]
-      </Widget.Content>
-        </Widget>
+                <LoadingContainer>
+                    <Loading />
+                </LoadingContainer>
+                
+            </Widget.Content>
+        </Widget >
     );
 }
 
@@ -128,8 +156,8 @@ function QuestionWidget({
                 >
                     {question.alternatives.map((alternative, alternativeIndex) => {
                         const alternativeId = `alternative__${alternativeIndex}`;
-                        const alternativeStatus= isCorrect ? "SUCCESS" : "ERROR"
-                        const isSelected  = selectedAlternative === alternativeIndex
+                        const alternativeStatus = isCorrect ? "SUCCESS" : "ERROR"
+                        const isSelected = selectedAlternative === alternativeIndex
 
                         return (
                             <Widget.Topic
@@ -186,7 +214,7 @@ export default function QuizPage() {
 
 
 
-    function addResult(resultNew){
+    function addResult(resultNew) {
         setResult([...result, resultNew])
 
 

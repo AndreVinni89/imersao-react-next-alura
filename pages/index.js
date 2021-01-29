@@ -31,51 +31,73 @@ const QuizContainer = styled.div`
 `;
 
 export default function Home() {
-  const router = useRouter();
-  const [name, setName] = React.useState('');
+    const router = useRouter();
+    const [name, setName] = React.useState('');
 
-  return (
-    <QuizBackground backgroundImage={db.bg}>
-      <Head>
-        <title>{db.title}</title>
-      </Head>
-      <QuizContainer>
-        <QuizLogo />
-        <Widget>
-          <Widget.Header>
-            <h1>{db.title}</h1>
-          </Widget.Header>
-          <Widget.Content>
-            <p>{db.description}</p>
-            <form onSubmit={function (infosDoEvento) {
-              infosDoEvento.preventDefault();
-              router.push(`/quiz?name=${name}`);
-              console.log('Fazendo uma submissão por meio do react');
-            }}
-            >
-              <Input
-                name="nomeDoUsuario"
-                onChange={(infosDoEvento) => setName(infosDoEvento.target.value)}
-                placeholder="Diz ai seu nome"
-                value={name}
-              />
-              <Button type="submit" disabled={name.length === 0}>
-                {`Jogar ${name}`}
-              </Button>
-            </form>
-          </Widget.Content>
-        </Widget>
+    return (
+        <QuizBackground backgroundImage={db.bg}>
+            <Head>
+                <title>{db.title}</title>
+            </Head>
+            <QuizContainer>
+                <QuizLogo />
+                <Widget>
+                    <Widget.Header>
+                        <h1>{db.title}</h1>
+                    </Widget.Header>
+                    <Widget.Content>
+                        <p>{db.description}</p>
+                        <form onSubmit={function (infosDoEvento) {
+                            infosDoEvento.preventDefault();
+                            router.push(`/quiz?name=${name}`);
+                            console.log('Fazendo uma submissão por meio do react');
+                        }}
+                        >
+                            <Input
+                                name="nomeDoUsuario"
+                                onChange={(infosDoEvento) => setName(infosDoEvento.target.value)}
+                                placeholder="Diz ai seu nome"
+                                value={name}
+                            />
+                            <Button type="submit" disabled={name.length === 0}>
+                                {`Jogar ${name}`}
+                            </Button>
+                        </form>
+                    </Widget.Content>
+                </Widget>
 
-        <Widget>
-          <Widget.Content>
-            <h1>Quizes da Galera</h1>
+                <Widget>
+                    <Widget.Content>
+                        <h1>Quizes da Galera</h1>
 
-            <p>lorem ipsum dolor sit amet...</p>
-          </Widget.Content>
-        </Widget>
-        <Footer />
-      </QuizContainer>
-      <GitHubCorner projectUrl="https://github.com/omariosouto" />
-    </QuizBackground>
-  );
+
+                        <ul>
+
+                            {db.external.map(link => {
+                                const [projectName, devName ] = link.replace('https://', '').replace('.vercel.app/', '').split('.')
+
+
+                                return (
+                                    <li><Widget.Topic href={link}>{devName + ' ' + projectName}</Widget.Topic></li>
+
+                                )
+
+
+
+
+
+                            }
+                            )}
+
+                        </ul>
+
+
+
+                    </Widget.Content>
+                </Widget>
+                <Footer />
+            </QuizContainer>
+            <GitHubCorner projectUrl="https://github.com/omariosouto" />
+        </QuizBackground>
+    );
 }
